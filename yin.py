@@ -1,8 +1,6 @@
 # Implementation of Yin Algorithm for Pitch Tracking
 # 02/25/2017
 import numpy as np
-import librosa
-# import scipy
 
 
 class pitch_tracker:

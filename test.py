@@ -1,5 +1,6 @@
 import yin
 import numpy as np
+import librosa
 
 
 def make_sinewave(f, t, sr):
