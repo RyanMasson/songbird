@@ -76,6 +76,8 @@ class pitch_tracker:
         :param tau_estimate: tau value with best estimate of autocorrelation
         :return: None
         '''
+        if tau_estimate == -1:
+            return -1
 
         x0 = 0
         x2 = 0
@@ -110,3 +112,19 @@ class pitch_tracker:
             better_tau = tau_estimate + (s2 - s0) / (2 * (2 * s1- s2 - s0))
 
         return better_tau
+
+def get_pitch(sig_buffer, threshold, sr):
+
+    buffer_size = sig_buffer.shape[0]
+    ypt = pitch_tracker(buffer_size, threshold)
+    ypt.yin_difference(sig_buffer)
+    ypt.yin_cmnd()
+    tau = ypt.yin_abs_threshold()
+    better_tau = ypt.yin_parabolic_interpolation(tau)
+
+    pitch = 0
+    if better_tau != -1:
+        pitch = sr / better_tau
+
+    return pitch
+
