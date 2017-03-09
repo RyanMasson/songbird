@@ -24,8 +24,10 @@
         <h1>Songbird</h1>
         <p>Record your voice below and then type in an adjective to describe how you'd like your voice to sound.</p>
     </div>
-    <button class="btn btn-large" onclick="startRecording(this);">record</button>
-    <button class="btn btn-large" onclick="stopRecording(this);" disabled>stop</button>
+    <div class="btn-group btn-group-lg" role="group">
+        <button class="btn btn-lg btn-success" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
+        <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
+    </div>
     <h2>Recordings</h2>
     <ul class="list-group" id="recordingslist"></ul>
     <h2>Log</h2>
@@ -75,14 +77,19 @@
             li.className = 'list-group-item';
             var au = document.createElement('audio');
             var hf = document.createElement('a');
+            hf.className = 'btn btn-default';
+            var span = document.createElement('span');
+            span.className = 'glyphicon glyphicon-download-alt';
 
             au.controls = true;
             au.src = url;
             hf.href = url;
             hf.download = new Date().toISOString() + '.wav';
-            hf.innerHTML = hf.download;
+            hf.innerHTML = span.outerHTML + '  Download';
+
             li.appendChild(au);
             li.appendChild(hf);
+
             recordingslist.appendChild(li);
         });
     }

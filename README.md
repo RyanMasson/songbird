@@ -1,7 +1,7 @@
 ##SongBird
 A simple, interactive autotune for vocal riffs.
 
-#Usage
+###Usage
 Windows:
 ```
 pip install -r songbird/requirements.txt
