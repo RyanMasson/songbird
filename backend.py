@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 import os
 import sys
 from songbird import app, wavs
+import pitch_shifter
 
 backend = Blueprint('backend', __name__)
 
@@ -34,5 +35,10 @@ Test function that will slow down the given wav file at the given path
 '''
 def test(path):
     aud = librosa.load(path)[0]
-    sig = librosa.effects.time_stretch(aud, 0.5)
-    write(path, 22050, sig)
+    sr = 44100
+    threshold = 0.2
+    shifter = pitch_shifter.pitch_shifter(aud)
+    intended_freqs, tuned_freqs = shifter.get_freqs(threshold)
+    tuned_audio = shifter.shift_audio()
+    tuned_audio = np.int16(tuned_audio/np.max(np.abs(tuned_audio)) * 32767)
+    write(path, 22050, tuned_audio)
