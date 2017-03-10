@@ -2,3 +2,4 @@ flask
 flask-appconfig>=0.10
 flask-bootstrap
 flask-nav
+flask-uploads
