@@ -6,7 +6,7 @@ import librosa
 
 class pitch_shifter:
 
-    def __init__(self, raw_audio, window_size=1024, sr = 44100, system = "eq-temp"):
+    def __init__(self, raw_audio, window_size=4096, sr = 22050, system = "eq-temp"):
 
         fundamentals = [3951.07,
                         3729.31,
@@ -115,8 +115,12 @@ class pitch_shifter:
         self.sr = sr
         self.raw_audio = raw_audio
         self.window_size = window_size
-        no_samples = self.raw_audio.shape[0]
-        self.num_windows = int(math.floor(float(no_samples) / window_size))
+        self.no_samples = self.raw_audio.shape[0]
+        dumm_nw = int(math.floor(float(self.no_samples) / window_size))
+        print dumm_nw
+        self.hop_size = window_size / 2
+        self.num_windows = int(math.floor(float(self.no_samples) / self.hop_size)) - 1
+        print self.num_windows
 
     def get_freqs(self, threshold):
         '''
@@ -125,46 +129,57 @@ class pitch_shifter:
         :param sr: int representing sample rate
         :return: (array of intended fundamental frequencies, array of "tuned" fundamental frequencies)
         '''
+        intended_fund_freqs = np.empty(self.num_windows)
+        tuned_fund_freqs = np.empty(self.num_windows)
 
-        intended_fund_freqs = np.empty(0)
-        tuned_fund_freqs = np.empty(0)
+        st_pos = 0
+        i = 0
+        while st_pos < (self.no_samples - self.window_size):
 
-        for i in np.arange(0, self.num_windows):
-
-            freq = yin.get_pitch(self.raw_audio[i * self.window_size: (i + 1) * self.window_size], threshold, self.sr)
+            freq = yin.get_pitch(self.raw_audio[st_pos : st_pos + self.window_size], threshold, self.sr)
 
             if freq < 0 or freq > 5000:
                 freq = 0
-            intended_fund_freqs = np.append(intended_fund_freqs, freq)
+            intended_fund_freqs[i] = freq
+
             tf_idx = [idx for idx, bound in enumerate(self.boundaries) if freq < bound]
             if tf_idx == []:
                 tf_idx = 0
             else:
                 tf_idx = tf_idx[0]
+            tuned_fund_freqs[i] = self.fundamentals[tf_idx - 1]
 
-            tuned_fund_freqs = np.append(tuned_fund_freqs, self.fundamentals[tf_idx-1])
+            st_pos = st_pos + self.hop_size
+            i += 1
 
         self.intended_fund_freqs = intended_fund_freqs
         self.tuned_fund_freqs = tuned_fund_freqs
-
-        return intended_fund_freqs, tuned_fund_freqs
 
     def half_steps_between(self, f1, f2, system="eq-temp"):
         if system == "eq-temp":
             if f1 == 0:
                 return 0
-            n_half_steps = 12*math.log((f2/f1),2)
+            n_half_steps = 12*math.log((f2/f1), 2)
         return n_half_steps
 
     def shift_audio(self):
 
         self.tuned_audio = np.zeros(len(self.raw_audio))
 
-        for i in np.arange(0, self.num_windows):
+        st_pos = 0
+        idx = 0
+        while st_pos < (self.no_samples - self.window_size):
 
-            n_half_steps = self.half_steps_between(self.intended_fund_freqs[i], self.tuned_fund_freqs[i])
-            start = i * self.window_size
-            end = (i + 1) * self.window_size
-            self.tuned_audio[start:end] = librosa.effects.pitch_shift(self.raw_audio[start:end], self.sr, n_steps = n_half_steps)
+            n_half_steps = self.half_steps_between(self.intended_fund_freqs[idx], self.tuned_fund_freqs[idx])
+            end_pos = st_pos + self.window_size
+            windowed = self.raw_audio[st_pos:end_pos] * np.hanning(self.window_size)
+            self.tuned_audio[st_pos:end_pos] = self.tuned_audio[st_pos:end_pos] +\
+                                               librosa.effects.pitch_shift(windowed,
+                                                                           self.sr,
+                                                                           n_steps = n_half_steps)
+
+            st_pos = st_pos + self.hop_size
+            idx += 1
+
 
         return self.tuned_audio

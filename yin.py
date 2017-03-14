@@ -8,7 +8,8 @@ class pitch_tracker:
     def __init__(self, buffer_size, threshold):
 
         self.buffer_size = buffer_size
-        self.half_buffer_size = buffer_size / 2
+        # self.half_buffer_size = buffer_size / 8
+        self.half_buffer_size = 350
         self.threshold = threshold
         self.probability = 0.0
 
