@@ -33,8 +33,22 @@
     </div>
     <div class="well col-md-12">
         <h1>Add your effects</h1>
-        <div class="form-group col-md-6">
-            <label for="eq-input">EQ descriptor:</label>
+        <div class="col-md-4">
+            <h3>Auto-tune setting</h3>
+            <div class="input-group">
+                <div class="radio-inline">
+                    <label><input type="radio" onclick="setTune('real')" name="optradio" checked="checked">Realistic (A440)</label>
+                </div>
+                <div class="radio-inline">
+                    <label><input type="radio" onclick="setTune('quarter')" name="optradio">Quarter-tones</label>
+                </div>
+                <div class="radio-inline">
+                    <label><input type="radio" onclick="setTune('absurd')" name="optradio">Absurd</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <h3>EQ descriptor</h3>
             <div class="input-group">
                 <input type="text" id="eq-input" class="form-control"
                 onkeyup="if (event.keyCode == 13) parse(this);" title="eq">
@@ -43,8 +57,8 @@
                 </span>
             </div>
         </div>
-        <div class="form-group col-md-6">
-            <label for="reverb-input">Reverb descriptor:</label>
+        <div class="form-group col-md-4">
+            <h3>Reverb descriptor</h3>
             <div class="input-group">
                 <input type="text" id="reverb-input" class="form-control"
                 onkeyup="if (event.keyCode == 13) parse(this);" title="reverb">
@@ -148,6 +162,25 @@
             })
         });
     }
+
+    function setTune(setting) {
+        if (setting == "real") {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", '/_setreal', false ); // false for synchronous request
+            xmlHttp.send( null );
+        }
+        if (setting == "quarter") {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", '/_setquarter', false ); // false for synchronous request
+            xmlHttp.send( null );
+        }
+        if (setting == "absurd") {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", '/_setabsurd', false ); // false for synchronous request
+            xmlHttp.send( null );
+        }
+    }
+
     window.onload = function init() {
         try {
             // webkit shim

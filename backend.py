@@ -97,7 +97,7 @@ a440_funds =  [3951.07,
                         29.1352,
                         27.5,
                         25.9565]
-q_tones_funds = [4066.84, 3951.07, 3838.59, 3729.31, 3623.14,
+quarter_tones = [4066.84, 3951.07, 3838.59, 3729.31, 3623.14,
                  3520.00, 3419.79, 3322.44, 3227.85, 3135.96,
                  3046.69, 2959.96, 2875.69, 2793.83, 2714.29,
                  2637.02, 2561.95, 2489.02, 2418.16, 2349.32,
@@ -159,10 +159,30 @@ def upload_file():
             return redirect(request.url)
         if file:
             filename = wavs.save(file)
-            return wavs.url(test(wavs.path(filename), absurd_funds_low))
+            if app.config['TUNING_SYSTEM'] == 'real':
+                return wavs.url(test(wavs.path(filename), a440_funds))
+            if app.config['TUNING_SYSTEM'] == 'quarter':
+                return wavs.url(test(wavs.path(filename), quarter_tones))
+            if app.config['TUNING_SYSTEM'] == 'absurd':
+                return wavs.url(test(wavs.path(filename), absurd_funds_low))
             # return wavs.url(filename)
 
     return
+
+@backend.route('/_setreal', methods=['GET'])
+def set_real():
+    app.config['TUNING_SYSTEM'] = 'real'
+    return ''
+
+@backend.route('/_setquarter', methods=['GET'])
+def set_quarter():
+    app.config['TUNING_SYSTEM'] = 'quarter'
+    return ''
+
+@backend.route('/_setabsurd', methods=['GET'])
+def set_absurd():
+    app.config['TUNING_SYSTEM'] = 'absurd'
+    return ''
 
 '''
 Test function that will slow down the given wav file at the given path
