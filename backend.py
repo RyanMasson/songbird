@@ -149,7 +149,7 @@ def upload_file():
             return redirect(request.url)
         if file:
             filename = wavs.save(file)
-            # test(wavs.path(filename))
+            test(wavs.path(filename), absurd_funds_low)
             return wavs.url(filename)
 
     return
@@ -161,7 +161,7 @@ def test(path, tuning_system):
     aud = librosa.load(path)[0]
     sr = 22050
     threshold = 0.2
-    shifter = pitch_shifter.pitch_shifter(aud, max_freq=350, fundamentals=tuning_system)
+    shifter = pitch_shifter.pitch_shifter(aud, tuning_system, max_freq=350)
     shifter.get_freqs(threshold)
     tuned_audio = shifter.shift_audio()
     tuned_audio = np.int16(tuned_audio/np.max(np.abs(tuned_audio)) * 32767)

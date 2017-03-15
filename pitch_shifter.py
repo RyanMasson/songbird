@@ -6,7 +6,7 @@ import librosa
 
 class pitch_shifter:
 
-    def __init__(self, raw_audio, window_size=4096, sr = 22050, max_freq=350, fundamentals):
+    def __init__(self, raw_audio, fundamentals, window_size=4096, sr = 22050, max_freq=350):
 
         # if system != "eq-temp":
         #     raise ParameterError('Define other tuning system')
