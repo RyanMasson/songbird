@@ -150,8 +150,8 @@ def upload_file():
             return redirect(request.url)
         if file:
             filename = wavs.save(file)
-            test(wavs.path(filename), absurd_funds_low)
-            return wavs.url(filename)
+            return test(wavs.path(filename), absurd_funds_low)
+            # return wavs.url(filename)
 
     return
 
@@ -166,4 +166,7 @@ def test(path, tuning_system):
     shifter.get_freqs(threshold)
     tuned_audio = shifter.shift_audio()
     tuned_audio = np.int16(tuned_audio/np.max(np.abs(tuned_audio)) * 32767)
-    write(path, 22050, tuned_audio)
+    filename, file_extension = os.path.splitext(path)
+    filepath = filename + '_new' + file_extension
+    write(filepath, 22050, tuned_audio)
+    return filepath
