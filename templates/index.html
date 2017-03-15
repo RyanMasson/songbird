@@ -24,14 +24,49 @@
         <h1>Songbird</h1>
         <p>Record your voice below and then type in an adjective to describe how you'd like your voice to sound.</p>
     </div>
-    <div class="btn-group btn-group-lg" role="group">
-        <button class="btn btn-lg btn-success" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
-        <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
+    <div class="well col-md-12">
+        <h1>Record your voice</h1>
+        <div class="btn-group btn-group-lg" role="group">
+            <button class="btn btn-lg btn-success" href="/_deletewavs" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
+            <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
+        </div>
     </div>
-    <h2>Recordings</h2>
-    <ul class="list-group" id="recordingslist"></ul>
-    <h2>Log</h2>
-    <pre id="log"></pre>
+    <div class="well col-md-12">
+        <h1>Add your effects</h1>
+        <div class="form-group col-md-6">
+            <label for="eq-input">EQ descriptor:</label>
+            <div class="input-group">
+                <input type="text" id="eq-input" class="form-control"
+                onkeyup="if (event.keyCode == 13) parse(this);" title="eq">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="parse(document.getElementById('eq-input'))">Set</button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="reverb-input">Reverb descriptor:</label>
+            <div class="input-group">
+                <input type="text" id="reverb-input" class="form-control"
+                onkeyup="if (event.keyCode == 13) parse(this);" title="reverb">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="parse(document.getElementById('reverb-input'))">Set</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="well col-md-12">
+        <h1>Check out the result</h1>
+        <div class="btn-group btn-group-lg" role="group">
+            <button class="btn btn-lg btn-success"  id="playbutton" onclick="play()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>  Play</button>
+            <button class="btn btn-lg btn-danger" onclick="stop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
+        </div>
+    </div>
+    <div class="debug">
+        <h2>Recordings</h2>
+        <ul class="list-group" id="recordingslist"></ul>
+        <h2>Log</h2>
+        <pre id="log"></pre>
+    </div>
 </div>
 <script>
     function __log(e, data) {
@@ -70,6 +105,12 @@
         recorder.clear();
     }
 
+    window.onbeforeunload = function () {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", '/_deletewavs', false ); // false for synchronous request
+        xmlHttp.send( null );
+    }
+
     function createDownloadLink() {
         recorder && recorder.exportWAV(function (blob) {
             var filename = new Date().toISOString() + '.wav';
@@ -86,6 +127,7 @@
                 processData: false,
                 async: false,
                 success: function(data) {
+                    startAudealize([url]);
                     url = data;
                     var li = document.createElement('li');
                     li.className = 'list-group-item';
@@ -130,6 +172,8 @@
 </script>
 <script src="../static/recorder.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="../static/js/audealize.min.js"></script>
+<script src="../static/js/main.js"></script>
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
