@@ -57,8 +57,8 @@
     <div class="well col-md-12">
         <h1>Check out the result</h1>
         <div class="btn-group btn-group-lg" role="group">
-            <button class="btn btn-lg btn-success"  id="playbutton" onclick="play()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>  Play</button>
-            <button class="btn btn-lg btn-danger" onclick="stop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
+            <button class="btn btn-lg btn-success"  id="playbutton" onclick="play()" disabled><span class="glyphicon glyphicon-play" aria-hidden="true"></span>  Play</button>
+            <button class="btn btn-lg btn-danger" id="stopbutton" onclick="stop()" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
         </div>
     </div>
     <div class="debug">
@@ -142,6 +142,8 @@
                     li.appendChild(au);
 
                     recordingslist.appendChild(li);
+                    document.getElementById('playbutton').disabled = false;
+                    document.getElementById('stopbutton').disabled = false;
                 }
             })
         });
