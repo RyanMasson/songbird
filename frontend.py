@@ -9,6 +9,7 @@ frontend = Blueprint('frontend', __name__)
 nav.register_element('frontend_top', Navbar(
     View('Songbird', '.index'),
     View('Home', '.index'),
+    View('About', '.about')
     # Subgroup(
     #     'Docs',
     #     Link('Flask-Bootstrap', 'http://pythonhosted.org/Flask-Bootstrap'),
@@ -27,3 +28,7 @@ nav.register_element('frontend_top', Navbar(
 @frontend.route('/')
 def index():
     return render_template('index.html')
+
+@frontend.route('/about')
+def about():
+    return render_template('about.html')
