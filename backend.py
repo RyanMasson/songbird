@@ -150,10 +150,30 @@ def upload_file():
             return redirect(request.url)
         if file:
             filename = wavs.save(file)
-            return wavs.url(test(wavs.path(filename), absurd_funds_low))
+            if app.config['TUNING_SYSTEM'] == 'real':
+                return wavs.url(test(wavs.path(filename), a440_funds))
+            if app.config['TUNING_SYSTEM'] == 'quarter':
+                return wavs.url(test(wavs.path(filename), quarter_tones))
+            if app.config['TUNING_SYSTEM'] == 'absurd':
+                return wavs.url(test(wavs.path(filename), absurd_funds_low))
             # return wavs.url(filename)
 
     return
+
+@backend.route('/_setreal', methods=['GET'])
+def set_real():
+    app.config['TUNING_SYSTEM'] = 'real'
+    return ''
+
+@backend.route('/_setquarter', methods=['GET'])
+def set_quarter():
+    app.config['TUNING_SYSTEM'] = 'quarter'
+    return ''
+
+@backend.route('/_setabsurd', methods=['GET'])
+def set_absurd():
+    app.config['TUNING_SYSTEM'] = 'absurd'
+    return ''
 
 '''
 Test function that will slow down the given wav file at the given path

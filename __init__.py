@@ -19,6 +19,7 @@ def create_app(configfile=None):
     app.config['UPLOADS_DEFAULT_DEST'] = 'songbird/static/uploads'
     app.config['UPLOADED_AUDIO_URL'] = 'http://localhost:5000/static/uploads/'
     app.config['UPLOADS_DEFAULT_URL'] = 'http://localhost:5000/static/uploads/'
+    app.config['TUNING_SYSTEM'] = 'real'
     configure_uploads(app, wavs)
     app.register_blueprint(frontend)
     app.register_blueprint(backend)
