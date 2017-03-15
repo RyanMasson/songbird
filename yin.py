@@ -2,17 +2,14 @@
 # 02/25/2017
 import numpy as np
 
-
 class pitch_tracker:
 
-    def __init__(self, buffer_size, threshold):
-
+    def __init__(self, buffer_size, threshold, max_freq):
         self.buffer_size = buffer_size
-        # self.half_buffer_size = buffer_size / 8
-        self.half_buffer_size = 350
+        self.half_buffer_size = max_freq
+        #TODO: if max_freq not passed, set as buffer_size / 2
         self.threshold = threshold
         self.probability = 0.0
-
         self.yin_buffer = np.zeros(self.half_buffer_size)
 
     def yin_difference(self, sig_buffer):
@@ -117,7 +114,7 @@ class pitch_tracker:
 def get_pitch(sig_buffer, threshold, sr):
 
     buffer_size = sig_buffer.shape[0]
-    ypt = pitch_tracker(buffer_size, threshold)
+    ypt = pitch_tracker(buffer_size, threshold, max_freq=300)
     ypt.yin_difference(sig_buffer)
     ypt.yin_cmnd()
     tau = ypt.yin_abs_threshold()
