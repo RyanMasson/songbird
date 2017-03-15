@@ -150,7 +150,7 @@ def upload_file():
             return redirect(request.url)
         if file:
             filename = wavs.save(file)
-            return test(wavs.path(filename), absurd_funds_low)
+            return wavs.url(test(wavs.path(filename), absurd_funds_low))
             # return wavs.url(filename)
 
     return
@@ -169,4 +169,4 @@ def test(path, tuning_system):
     filename, file_extension = os.path.splitext(path)
     filepath = filename + '_new' + file_extension
     write(filepath, 22050, tuned_audio)
-    return filepath
+    return os.path.basename(filepath)
