@@ -25,14 +25,13 @@ class pitch_shifter:
         self.boundaries = boundaries
 
         self.sr = sr
+        self.max_freq = max_freq
         self.raw_audio = raw_audio
         self.window_size = window_size
         self.no_samples = self.raw_audio.shape[0]
         dumm_nw = int(math.floor(float(self.no_samples) / window_size))
-        print dumm_nw
         self.hop_size = window_size / 2
         self.num_windows = int(math.floor(float(self.no_samples) / self.hop_size)) - 1
-        print self.num_windows
 
     def get_freqs(self, threshold):
         '''
@@ -50,7 +49,7 @@ class pitch_shifter:
 
             freq = yin.get_pitch(self.raw_audio[st_pos : st_pos + self.window_size], threshold, self.sr)
 
-            if freq < 0 or freq > 5000:
+            if freq < 0 or freq > self.max_freq:
                 freq = 0
             intended_fund_freqs[i] = freq
 
@@ -59,13 +58,18 @@ class pitch_shifter:
                 tf_idx = 0
             else:
                 tf_idx = tf_idx[0]
+
             tuned_fund_freqs[i] = self.fundamentals[tf_idx - 1]
 
             st_pos = st_pos + self.hop_size
             i += 1
 
         self.intended_fund_freqs = intended_fund_freqs
+
+
+
         self.tuned_fund_freqs = tuned_fund_freqs
+
 
     def half_steps_between(self, f1, f2, system="eq-temp"):
         if system == "eq-temp":
@@ -83,6 +87,7 @@ class pitch_shifter:
         while st_pos < (self.no_samples - self.window_size):
 
             n_half_steps = self.half_steps_between(self.intended_fund_freqs[idx], self.tuned_fund_freqs[idx])
+
             end_pos = st_pos + self.window_size
             windowed = self.raw_audio[st_pos:end_pos] * np.hanning(self.window_size)
             self.tuned_audio[st_pos:end_pos] = self.tuned_audio[st_pos:end_pos] +\

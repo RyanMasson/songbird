@@ -119,7 +119,8 @@ absurd_funds =  [3951.07,
                         48.9994,
                         38.8909,
                         30.8677]
-absurd_funds_low = [350, 300, 250, 200, 150, 100, 50]
+absurd_funds_low = [950, 850, 750, 650, 550,
+                    450, 350, 250, 150, 50]
 
 @backend.route('/_deletewavs', methods=['GET'])
 def delete_files():
@@ -161,7 +162,7 @@ def test(path, tuning_system):
     aud = librosa.load(path)[0]
     sr = 22050
     threshold = 0.2
-    shifter = pitch_shifter.pitch_shifter(aud, tuning_system, max_freq=350)
+    shifter = pitch_shifter.pitch_shifter(aud, tuning_system, window_size=4096, max_freq=1024)
     shifter.get_freqs(threshold)
     tuned_audio = shifter.shift_audio()
     tuned_audio = np.int16(tuned_audio/np.max(np.abs(tuned_audio)) * 32767)
