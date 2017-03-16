@@ -203,7 +203,8 @@ def test(path, tuning_system):
 
     # dynamic limiting or compression
     sr, x = wavfile.read(filepath)
-    x = float(x) / np.abs(x).max() # x scale between -1 and 1
+    x = float(x)
+    x = x / np.abs(x).max() # x scale between -1 and 1
     x2 = dynamic_compression.limiter(x)
     x2 = np.int16(x2 * 32767)
     wavfile.write(filepath, sr, x2)
