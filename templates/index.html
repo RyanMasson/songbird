@@ -101,6 +101,8 @@
     }
 
     function startRecording(button) {
+        document.getElementById('playbutton').disabled = true;
+        document.getElementById('stopbutton').disabled = true;
         recorder && recorder.record();
         button.disabled = true;
         button.nextElementSibling.disabled = false;
