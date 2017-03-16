@@ -201,17 +201,12 @@ def test(path, tuning_system):
     filepath = filename + '_new' + file_extension
     write(filepath, 22050, tuned_audio)
 
-    # dynamic limiting or compression
+    # add smooth compression
     sr, x = wavfile.read(filepath)
     x = x.astype(np.float)
     x = x / np.abs(x).max() # x scale between -1 and 1
-    #x2 = dynamic_compression.limiter(x)
-    #x2 = np.int16(x2 * 32767)
-    #wavfile.write(filepath, sr, x2)
-    #print "did hard limiting"
     x3 = dynamic_compression.arctan_compressor(x)
     x3 = np.int16(x3 * 32767)
     wavfile.write(filepath, sr, x3)
-    print "did smooth compression"
 
     return os.path.basename(filepath)
