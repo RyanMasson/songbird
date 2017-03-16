@@ -10,6 +10,7 @@ def apply_transfer(signal, transfer, interpolation='linear'):
     return interpolator(signal)
 
 # hard limiting
+# we're not going to use this in Songbird, but it can be a useful technique
 def limiter(x, treshold=0.8):
     transfer_len = 1000
     transfer = np.concatenate([ np.repeat(-1, int(((1-treshold)/2)*transfer_len)),
