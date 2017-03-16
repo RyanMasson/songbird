@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, send_from_directory
 import librosa
 from scipy.io.wavfile import write
+from scipy.io import wavfile
 import numpy as np
 from werkzeug.utils import secure_filename
 import os
 import sys
 from songbird import app, wavs
 import pitch_shifter
+import dynamic_compression
 
 backend = Blueprint('backend', __name__)
 a440_funds =  [3951.07,
@@ -198,4 +200,16 @@ def test(path, tuning_system):
     filename, file_extension = os.path.splitext(path)
     filepath = filename + '_new' + file_extension
     write(filepath, 22050, tuned_audio)
+
+    # dynamic limiting or compression
+    sr, x = wavfile.read(filepath)
+    x = x / np.abs(x).max() # x scale between -1 and 1
+    x2 = dynamic_compression.limiter(x)
+    x2 = np.int16(x2 * 32767)
+    wavfile.write(filepath, sr, x2)
+    #x3 = arctan_compressor(x)
+    #x3 = np.int16(x3 * 32767)
+    #wavfile.write("output_comp.wav", sr, x3)
+
+
     return os.path.basename(filepath)
