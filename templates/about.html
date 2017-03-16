@@ -1,17 +1,8 @@
-{# This simple template derives from ``base.html``. See ``base.html`` for
-   more information about template inheritance. #}
-{%- extends "base.html" %}
-
-{# Loads some of the macros included with Flask-Bootstrap. We are using the
-   utils module here to automatically render Flask's flashed messages in a
-   bootstrap friendly manner #}
-{% import "bootstrap/utils.html" as utils %}
-
-
-{# Inside the ``content`` is where you should place most of your own stuff.
-   This will keep scripts at the page end and a navbar you add on later
-   intact. #}
-{% block content %}
+{# This simple template derives from ``base.html``. See ``base.html`` for more information about template inheritance. #}
+{%- extends "base.html" %} {# Loads some of the macros included with Flask-Bootstrap. We are using the utils module here
+to automatically render Flask's flashed messages in a bootstrap friendly manner #} {% import "bootstrap/utils.html" as utils
+%} {# Inside the ``content`` is where you should place most of your own stuff. This will keep scripts at the page end and
+a navbar you add on later intact. #} {% block content %}
 <div class="container">
     {%- with messages = get_flashed_messages(with_categories=True) %} {%- if messages %}
     <div class="row">
@@ -21,8 +12,63 @@
     </div>
     {%- endif %} {%- endwith %}
     <div class="jumbotron">
-        <h1>About</h1>
-        <p>The process behind this project</p>
+        <h1>About Songbird</h1>
+        <p>A project for <a target="eecs352" href="http://www.cs.northwestern.edu/~pardo/courses/eecs352/">EECS 352</a> at
+            <a target="northwestern" href="http://www.northwestern.edu/">Northwestern University</a> taught by <a target="pardo"
+                href="http://www.cs.northwestern.edu/~pardo/">Professor Bryan Pardo</a></p>
     </div>
+    <div class="marketing well col-md-12">
+        <h1>Team Members</h1>
+        <div class="col-lg-4">
+            <img class="img-circle img-responsive center-block" src="../static/img/cary.jpg">
+            <h2>Cary Murray</h2>
+            <a href="mailto:cmurray7@u.northwestern.edu" type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email
+            </a>
+            <a href="https://github.com/cmurray7" target="cmurray7" type="button" class="btn btn-default btn-lg">
+                <img src="../static/img/github-512.png" width="18" height="18" id="github"> GitHub
+            </a>
+        </div>
+        <div class="col-lg-4">
+            <img class="img-circle img-responsive center-block" src="../static/img/letsch.JPG">
+            <h2>Daniel Letscher</h2>
+            <a href="mailto:DanielLetscher2017@u.northwestern.edu" type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email
+            </a>
+            <a href="https://github.com/Letsch22" target="Letsch22" type="button" class="btn btn-default btn-lg">
+                <img src="../static/img/github-512.png" width="18" height="18" id="github"> GitHub
+            </a>
+        </div>
+        <div class="col-lg-4">
+            <img class="img-circle img-responsive center-block" src="../static/img/ryan.jpg">
+            <h2>Ryan Masson</h2>
+            <a href="mailto:ryanmasson2017@u.northwestern.edu" type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email
+            </a>
+            <a href="https://github.com/ryanmasson" target="ryanmasson" type="button" class="btn btn-default btn-lg">
+                <img src="../static/img/github-512.png" width="18" height="18" id="github"> GitHub
+            </a>
+        </div>
+    </div>
+    <div class="col-md-12 well">
+        <h1>Motivation</h1>
+        <h4>The goal of this project is to provide the user with an easy and fun way to create musically-tuned vocals from an untrained voice. Giving the user tools right at their fingertips like auto-tune profiles, EQ, and reverb settings allows for a fun and engaging tool to use. Using the Audealize API not only provides a good example of what it can do, it also provides the user with tested reverb and EQ profiles that will be what the user expects to hear. Finally, building easy-to-use creativity tools of this ilk is important. Industry-standard autotuning and sound manipulation software is designed for professionals, leaving a barrier to entry for the casual user. Our tool is designed for casual users who are just becoming interesting or could become interested in audio production.</h4>
+    </div>
+    <div class="col-md-12 well">
+        <h1>Process</h1>
+        <h4>Songbird's frontend is built using Flask, HTML5, and JavaScript. First, the user chooses the effects they wish to apply to their voice. This includes autotuning, which we accomplished using our own implmentation of the YIN pitch-tracking algorithm and our own pitch-shifting tactic. The user is able to choose between three autotune settings, which range from tuning to every possible note on an equal-tempered A440 scale to very few notes on an "absurd" setting. The user can also choose EQ and reverb profiles which was implemented using the Audealize API. Next, using RecorderJS, Songbird captures the user's vocals when the user hits record. The user then hits stop when they are done recording. Once the processing on the backend is complete, the play button will become available to click and the user can hear the final result.</h4>
+    </div>
+    <div class="col-md-12 well">
+        <h1>Testing</h1>
+        <h4>Since Songbird is primarily a user-facing tool that produces results that only the user can judge the success of, we tested it with user-interface testing. We measured success using a Likert-scaled user survery:</h4>
+        <h2>[INSERT SURVERY PHOTO HERE]</h2>
+    </div>
+    <div class="col-md-12 well">
+        <h1>Results</h1>
+        <h4>The results of our user testing is as follows:</h4>
+        <h2>[INSERT EXCEL GRAPH HERE WITH SURVEY RESULTS]</h2>
+        <h4>[INSERT PARAGRAPH ON RESULTS INTERPRETATION]</h4>
+    </div>
+
 </div>
 {%- endblock %}
