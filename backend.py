@@ -208,9 +208,11 @@ def test(path, tuning_system):
     x2 = dynamic_compression.limiter(x)
     x2 = np.int16(x2 * 32767)
     wavfile.write(filepath, sr, x2)
-    #x3 = arctan_compressor(x)
+    print "did hard limiting"
+    #x3 = dynamic_compression.arctan_compressor(x)
     #x3 = np.int16(x3 * 32767)
-    #wavfile.write("output_comp.wav", sr, x3)
+    #wavfile.write(filepath, sr, x3)
+    #print "did smooth compression"
 
 
     return os.path.basename(filepath)
