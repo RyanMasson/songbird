@@ -22,17 +22,10 @@
     {%- endif %} {%- endwith %}
     <div class="jumbotron">
         <h1>Songbird</h1>
-        <p>Record your voice below and then type in an adjective to describe how you'd like your voice to sound</p>
+        <p>Sing into your mic and hear your voice played-back with some professional-grade effects</p>
     </div>
     <div class="well col-md-12">
-        <h1>Record your voice</h1>
-        <div class="btn-group btn-group-lg" role="group">
-            <button class="btn btn-lg btn-success" href="/_deletewavs" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
-            <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
-        </div>
-    </div>
-    <div class="well col-md-12">
-        <h1>Add your effects</h1>
+        <h1>Choose your effects</h1>
         <div class="col-md-4">
             <h3>Auto-tune setting</h3>
             <div class="input-group">
@@ -66,6 +59,13 @@
                     <button class="btn btn-default" type="button" onclick="parse(document.getElementById('reverb-input'))">Set</button>
                 </span>
             </div>
+        </div>
+    </div>
+    <div class="well col-md-12">
+        <h1>Record your voice</h1>
+        <div class="btn-group btn-group-lg" role="group">
+            <button class="btn btn-lg btn-success" href="/_deletewavs" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
+            <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
         </div>
     </div>
     <div class="well col-md-12">
