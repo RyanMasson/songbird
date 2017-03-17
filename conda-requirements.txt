@@ -1,0 +1,12 @@
+python=2.7.11
+pip
+setuptools
+flask
+flask-appconfig>=0.10
+flask-bootstrap
+flask-nav
+flask-uploads
+markupsafe
+numpy
+scipy
+librosa
