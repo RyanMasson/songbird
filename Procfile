@@ -1,1 +1,1 @@
-web: gunicorn songbird:app
+web: gunicorn 'songbird:create_app()'
