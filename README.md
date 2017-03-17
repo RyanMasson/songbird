@@ -1,8 +1,8 @@
-##SongBird
+## SongBird
 
 A simple, interactive autotune for vocal riffs.
 
-###Usage
+### Usage
 
 Ensure you are working in a Conda environment with both SciPy and NumPy installed (see conda-requirements.txt). Then:
 
