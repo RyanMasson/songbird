@@ -7,3 +7,4 @@ flask-bootstrap
 flask-nav
 flask-uploads
 markupsafe
+librosa
