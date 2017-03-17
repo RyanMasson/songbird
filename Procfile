@@ -1,1 +1,1 @@
-web: gunicorn 'app:create_app("development")'
+web: gunicorn eecs352songbird:app
