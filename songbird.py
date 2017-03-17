@@ -15,8 +15,8 @@ from backend import backend
 def create_app(configfile=None):
     AppConfig(app)
     Bootstrap(app)
-    app.config['UPLOADED_AUDIO_DEST'] = 'songbird/static/uploads'
-    app.config['UPLOADS_DEFAULT_DEST'] = 'songbird/static/uploads'
+    app.config['UPLOADED_AUDIO_DEST'] = 'static/uploads'
+    app.config['UPLOADS_DEFAULT_DEST'] = 'static/uploads'
     app.config['UPLOADED_AUDIO_URL'] = 'http://localhost:5000/static/uploads/'
     app.config['UPLOADS_DEFAULT_URL'] = 'http://localhost:5000/static/uploads/'
     app.config['TUNING_SYSTEM'] = 'real'
