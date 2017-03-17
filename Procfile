@@ -1,1 +1,1 @@
-web: gunicorn eecs352songbird:app
+web: gunicorn songbird:app
