@@ -25,9 +25,8 @@
         <p>Sing into your mic and hear your voice played-back with some professional-grade effects</p>
     </div>
     <div class="well col-md-12">
-        <h1>Choose your effects</h1>
+        <h1>Choose your auto-tune setting</h1>
         <div class="col-md-4">
-            <h3>Auto-tune setting</h3>
             <div class="input-group">
                 <div class="radio-inline">
                     <label><input type="radio" onclick="setTune('real')" name="optradio" checked="checked">Realistic (A440)</label>
@@ -40,7 +39,17 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-md-4">
+    </div>
+    <div class="well col-md-12">
+        <h1>Record your voice</h1>
+        <div class="btn-group btn-group-lg" role="group">
+            <button class="btn btn-lg btn-success" href="/_deletewavs" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
+            <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
+        </div>
+    </div>
+    <div class="well col-md-12">
+        <h1>Choose your effects</h1>
+        <div class="form-group col-md-6">
             <h3>EQ descriptor</h3>
             <div class="input-group">
                 <input type="text" id="eq-input" class="form-control"
@@ -50,7 +59,7 @@
                 </span>
             </div>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <h3>Reverb descriptor</h3>
             <div class="input-group">
                 <input type="text" id="reverb-input" class="form-control"
@@ -59,13 +68,6 @@
                     <button class="btn btn-default" type="button" onclick="parse(document.getElementById('reverb-input'))">Set</button>
                 </span>
             </div>
-        </div>
-    </div>
-    <div class="well col-md-12">
-        <h1>Record your voice</h1>
-        <div class="btn-group btn-group-lg" role="group">
-            <button class="btn btn-lg btn-success" href="/_deletewavs" onclick="startRecording(this);"><span class="glyphicon glyphicon-record" aria-hidden="true"></span>  Record</button>
-            <button class="btn btn-lg btn-danger" onclick="stopRecording(this);" disabled><span class="glyphicon glyphicon-stop" aria-hidden="true"></span>  Stop</button>
         </div>
     </div>
     <div class="well col-md-12">
