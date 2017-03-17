@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request,
 import librosa
 from scipy.io.wavfile import write
 from scipy.io import wavfile
+from scipy.signal import firwin, convolve
 import numpy as np
 from werkzeug.utils import secure_filename
 import os
@@ -196,6 +197,7 @@ def test(path, tuning_system):
     shifter = pitch_shifter.pitch_shifter(aud, tuning_system, window_size=4096, max_freq=1024)
     shifter.get_freqs(threshold)
     tuned_audio = shifter.shift_audio()
+
     tuned_audio = np.int16(tuned_audio/np.max(np.abs(tuned_audio)) * 32767)
     filename, file_extension = os.path.splitext(path)
     filepath = filename + '_new' + file_extension
@@ -207,6 +209,7 @@ def test(path, tuning_system):
     x = x / np.abs(x).max() # x scale between -1 and 1
     x3 = dynamic_compression.arctan_compressor(x)
     x3 = np.int16(x3 * 32767)
+
     wavfile.write(filepath, sr, x3)
 
     return os.path.basename(filepath)
